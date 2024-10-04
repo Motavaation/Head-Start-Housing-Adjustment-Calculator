@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Head Start Housing Adjustment Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --text-color: #333333;
+        --link-color: #007b8d;
+        --heading-color: #264b65;
+        --button-color: #0063a6;
+        --button-hover-color: #004d80;
+        --error-color: #e51937;
+      }
+      body {
+        font-family: "Lato", sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--text-color);
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Roboto", sans-serif;
+        color: var(--heading-color);
+      }
+      h1 {
+        font-size: 2em;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      h3 {
+        font-size: 1.125em;
+      }
+      a {
+        color: var(--link-color);
+      }
+      .calculator {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .step {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      button {
+        background-color: var(--button-color);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        margin-top: 20px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 18px;
+        transition: background-color 0.3s;
+      }
+      button:hover,
+      button:focus {
+        background-color: var(--button-hover-color);
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-radius: 4px;
+      }
+      .yes {
+        color: #007b8d;
+        font-weight: bold;
+      }
+      .no {
+        color: var(--error-color);
+        font-weight: bold;
+      }
+      .caveat {
+        font-style: italic;
+        color: #666666;
+        margin-top: 20px;
+      }
+      .error {
+        color: var(--error-color);
+        font-weight: bold;
+      }
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black;
+        cursor: help;
+      }
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 200px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -100px;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+      .progress-bar {
+        width: 100%;
+        background-color: #e0e0e0;
+        padding: 3px;
+        border-radius: 3px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .progress {
+        width: 0;
+        height: 20px;
+        background-color: var(--button-color);
+        border-radius: 3px;
+        transition: width 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 id="main-heading">Head Start Housing Adjustment Calculator</h1>
+    </header>
+    <main>
+      <div class="calculator" role="form" aria-labelledby="calc-heading">
+        <h2 id="calc-heading">Enter Your Information</h2>
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+        <div id="step1" class="step">
+          <h3>Step 1: Calculation Frequency</h3>
+          <label for="frequency">How often do you want to calculate?</label>
+          <select id="frequency" onchange="updateProgress()">
+            <option value="monthly">Monthly</option>
+            <option value="annual">Annual</option>
+          </select>
+        </div>
+
+        <div id="step2" class="step">
+          <h3>Step 2: Income</h3>
+          <label for="income">
+            Total Household Income
+            <span class="tooltip"
+              >?
+              <span class="tooltiptext"
+                >The total amount of money earned by all members of your
+                household before taxes</span
+              >
+            </span>
+          </label>
+          <input
+            type="number"
+            id="income"
+            placeholder="Enter household income"
+            required
+            aria-required="true"
+            onchange="updateProgress()"
+          />
+        </div>
+
+        <div id="step3" class="step">
+          <h3>Step 3: Housing Costs</h3>
+          <label for="rent">
+            Rent/Mortgage (including taxes and insurance)
+            <span class="tooltip"
+              >?
+              <span class="tooltiptext"
+                >The amount you pay for your home, including property taxes and
+                insurance if applicable</span
+              >
+            </span>
+          </label>
+          <input
+            type="number"
+            id="rent"
+            placeholder="Enter rent/mortgage cost"
+            required
+            aria-required="true"
+            onchange="updateProgress()"
+          />
+
+          <label for="electricity">Electricity Cost</label>
+          <input
+            type="number"
+            id="electricity"
+            placeholder="Enter electricity cost"
+            required
+            aria-required="true"
+            onchange="updateProgress()"
+          />
+
+          <label for="gas">Gas Cost</label>
+          <input
+            type="number"
+            id="gas"
+            placeholder="Enter gas cost"
+            required
+            aria-required="true"
+            onchange="updateProgress()"
+          />
+
+          <label for="water">Water Cost</label>
+          <input
+            type="number"
+            id="water"
+            placeholder="Enter water cost"
+            required
+            aria-required="true"
+            onchange="updateProgress()"
+          />
+
+          <label for="sewer">Sewer Cost</label>
+          <input
+            type="number"
+            id="sewer"
+            placeholder="Enter sewer cost"
+            required
+            aria-required="true"
+            onchange="updateProgress()"
+          />
+
+          <label for="trash">Trash Cost</label>
+          <input
+            type="number"
+            id="trash"
+            placeholder="Enter trash cost"
+            required
+            aria-required="true"
+            onchange="updateProgress()"
+          />
+        </div>
+
+        <button onclick="calculateAdjustment()" id="calculate-button">
+          Calculate Adjustment
+        </button>
+      </div>
+
+      <div
+        id="result"
+        class="result"
+        style="display: none"
+        role="region"
+        aria-live="polite"
+      ></div>
+
+      <p class="caveat">
+        Note: This calculator provides an estimate for housing adjustment.
+        Please speak with a Head Start representative for official
+        determinations and provide supporting documents..
+      </p>
+    </main>
+
+    <script>
+      function updateProgress() {
+        const totalSteps = 8; // Frequency, Income, and 6 Housing Cost fields
+        const completedSteps = [
+          document.getElementById("frequency").value !== "",
+          document.getElementById("income").value !== "",
+          document.getElementById("rent").value !== "",
+          document.getElementById("electricity").value !== "",
+          document.getElementById("gas").value !== "",
+          document.getElementById("water").value !== "",
+          document.getElementById("sewer").value !== "",
+          document.getElementById("trash").value !== "",
+        ].filter(Boolean).length;
+
+        const progress = (completedSteps / totalSteps) * 100;
+        document.getElementById("progress").style.width = `${progress}%`;
+      }
+
+      function formatCurrency(value) {
+        if (isNaN(value)) {
+          return "Unable to calculate the amount due to missing information.";
+        }
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(value);
+      }
+
+      function calculateAdjustment() {
+        const frequency = document.getElementById("frequency").value;
+        const multiplier = frequency === "monthly" ? 12 : 1;
+
+        const income =
+          (parseFloat(document.getElementById("income").value) || 0) *
+          multiplier;
+        const rent =
+          (parseFloat(document.getElementById("rent").value) || 0) * multiplier;
+        const electricity =
+          (parseFloat(document.getElementById("electricity").value) || 0) *
+          multiplier;
+        const gas =
+          (parseFloat(document.getElementById("gas").value) || 0) * multiplier;
+        const water =
+          (parseFloat(document.getElementById("water").value) || 0) *
+          multiplier;
+        const sewer =
+          (parseFloat(document.getElementById("sewer").value) || 0) *
+          multiplier;
+        const trash =
+          (parseFloat(document.getElementById("trash").value) || 0) *
+          multiplier;
+
+        const totalHousingCosts =
+          rent + electricity + gas + water + sewer + trash;
+        const thirtyPercentIncome = income * 0.3;
+        const excessHousingCosts = Math.max(
+          0,
+          totalHousingCosts - thirtyPercentIncome
+        );
+        const adjustedIncome = income - excessHousingCosts;
+
+        const exceedsThirtyPercent = totalHousingCosts > thirtyPercentIncome;
+        const exceedsClass = exceedsThirtyPercent ? "yes" : "no";
+
+        let resultHtml = `
+          <h2>Results</h2>
+          <p>Total Annual Housing Costs: ${formatCurrency(
+            totalHousingCosts
+          )}</p>
+          <p>30% of Total Household Income: ${formatCurrency(
+            thirtyPercentIncome
+          )}</p>
+          <p>Do housing costs exceed 30% of total household income?
+              <span class="${exceedsClass}">${
+          exceedsThirtyPercent ? "Yes" : "No"
+        }</span>
+          </p>
+          <p>Total housing deduction allowable by Office of Head Start: ${formatCurrency(
+            excessHousingCosts
+          )}</p>
+          <p>New Household Income to determine eligibility: ${formatCurrency(
+            adjustedIncome
+          )}</p>
+          <h3>Calculation Breakdown:</h3>
+          <p>Total Household Income: ${formatCurrency(income)}</p>
+          <p>Housing Adjustment: ${formatCurrency(excessHousingCosts)}</p>
+          <p>Adjusted Income: ${formatCurrency(income)} - ${formatCurrency(
+          excessHousingCosts
+        )} = ${formatCurrency(adjustedIncome)}</p>
+        `;
+
+        document.getElementById("result").innerHTML = resultHtml;
+        document.getElementById("result").style.display = "block";
+
+        // Reset input fields to 0
+        //document.getElementById("income").value = "0";
+        //document.getElementById("rent").value = "0";
+        //document.getElementById("electricity").value = "0";
+        //document.getElementById("gas").value = "0";
+        //document.getElementById("water").value = "0";
+        //document.getElementById("sewer").value = "0";
+        //document.getElementById("trash").value = "0";
+      }
+
+      // Initialize progress bar
+      updateProgress();
+    </script>
+  </body>
+</html>
