@@ -8,7 +8,12 @@
       href="https://fonts.googleapis.com/css2?family=Lato&family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
+
     <style>
+      /* 
+        CSS Variables for consistent color scheme.
+        Using variables allows easy updates to the color palette and ensures consistency.
+      */
       :root {
         --text-color: #333333;
         --link-color: #007b8d;
@@ -16,25 +21,31 @@
         --button-color: #0063a6;
         --button-hover-color: #004d80;
         --error-color: #e51937;
+        --background-color: #f9f9f9;
+        --step-background: #ffffff;
       }
+
+      /* Global styles applied to the entire body of the document */
       body {
-        font-family: "Lato", sans-serif;
-        font-size: 16px;
-        line-height: 1.6;
-        color: var(--text-color);
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
+        font-family: "Lato", sans-serif; /* Primary font for body text */
+        font-size: 16px; /* Base font size */
+        line-height: 1.6; /* Improves readability */
+        color: var(--text-color); /* Sets text color using CSS variable */
+        max-width: 800px; /* Limits the width for better readability */
+        margin: 0 auto; /* Centers the content horizontally */
+        padding: 20px; /* Adds spacing around the content */
+        background-color: var(--background-color); /* Sets background color */
       }
+
+      /* Typography styles for headings */
       h1,
       h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: "Roboto", sans-serif;
-        color: var(--heading-color);
+      h3 {
+        font-family: "Roboto", sans-serif; /* Different font for headings */
+        color: var(--heading-color); /* Sets heading color */
       }
+
+      /* Specific font sizes for different heading levels */
       h1 {
         font-size: 2em;
       }
@@ -42,236 +53,533 @@
         font-size: 1.5em;
       }
       h3 {
-        font-size: 1.125em;
+        font-size: 1.25em;
       }
-      a {
-        color: var(--link-color);
-      }
+
+      /* Styles for the calculator form container */
       .calculator {
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
+        background-color: var(--step-background); /* Background color */
+        border-radius: 8px; /* Rounded corners */
+        padding: 20px; /* Inner spacing */
+        margin-bottom: 20px; /* Spacing below the form */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
       }
+
+      /* Styles for each step section within the form */
       .step {
-        margin-bottom: 20px;
-        padding: 15px;
-        background-color: #ffffff;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px; /* Spacing below each step */
+        padding: 15px; /* Inner spacing */
+        background-color: var(--background-color); /* Background color */
+        border-radius: 4px; /* Rounded corners */
       }
+
+      /* Styles for fieldsets, which group related form elements */
+      fieldset {
+        border: 1px solid #ccc; /* Border color */
+        border-radius: 4px; /* Rounded corners */
+        padding: 10px; /* Inner spacing */
+        margin-bottom: 15px; /* Spacing below the fieldset */
+      }
+
+      /* Styles for legends, which provide captions for fieldsets */
+      legend {
+        font-weight: bold; /* Bold text */
+        padding: 0 5px; /* Horizontal padding */
+      }
+
+      /* Styles for labels associated with form inputs */
       label {
-        display: block;
-        margin-top: 10px;
-        font-weight: bold;
+        display: block; /* Ensures labels take up full width */
+        margin-top: 10px; /* Spacing above labels */
+        font-weight: bold; /* Bold text */
       }
-      input[type="number"],
-      select {
-        width: 100%;
-        padding: 5px;
-        margin-top: 5px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+
+      /* Container for input groups, arranging inputs side by side */
+      .input-group {
+        display: flex; /* Flexbox for layout */
+        justify-content: space-between; /* Even spacing between items */
+        gap: 10px; /* Space between flex items */
+        margin-bottom: 15px; /* Spacing below input groups */
       }
+
+      /* Styles for number inputs within input groups */
+      .input-group input[type="number"] {
+        flex: 1; /* Allows inputs to grow and fill space */
+        padding: 8px; /* Inner spacing */
+        font-size: 16px; /* Font size */
+        border: 1px solid #ccc; /* Border color */
+        border-radius: 4px; /* Rounded corners */
+      }
+
+      /* Styles for buttons */
       button {
-        background-color: var(--button-color);
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        margin-top: 20px;
-        cursor: pointer;
-        border-radius: 4px;
-        font-size: 18px;
-        transition: background-color 0.3s;
+        background-color: var(--button-color); /* Button background color */
+        color: white; /* Text color */
+        border: none; /* Removes default border */
+        padding: 12px 24px; /* Inner spacing */
+        margin-top: 20px; /* Spacing above button */
+        cursor: pointer; /* Pointer cursor on hover */
+        border-radius: 4px; /* Rounded corners */
+        font-size: 18px; /* Font size */
+        transition: background-color 0.3s; /* Smooth transition for hover effect */
       }
+
+      /* Hover and focus states for buttons */
       button:hover,
       button:focus {
-        background-color: var(--button-hover-color);
+        background-color: var(
+          --button-hover-color
+        ); /* Darker background on hover/focus */
       }
+
+      /* Styles for error messages */
+      .error-message {
+        color: var(--error-color); /* Error text color */
+        font-size: 0.9em; /* Slightly smaller font size */
+        margin-top: 5px; /* Spacing above error message */
+      }
+
+      /* Styles for the result display area */
       .result {
-        margin-top: 20px;
-        padding: 15px;
-        background-color: #f9f9f9;
-        border-radius: 4px;
+        margin-top: 20px; /* Spacing above results */
+        padding: 15px; /* Inner spacing */
+        background-color: var(--step-background); /* Background color */
+        border-radius: 4px; /* Rounded corners */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
       }
-      .yes {
-        color: #007b8d;
-        font-weight: bold;
-      }
-      .no {
-        color: var(--error-color);
-        font-weight: bold;
-      }
+
+      /* Styles for caveat text */
       .caveat {
-        font-style: italic;
-        color: #666666;
-        margin-top: 20px;
+        font-style: italic; /* Italic text */
+        color: #666666; /* Gray text color */
+        margin-top: 20px; /* Spacing above caveat */
       }
-      .error {
-        color: var(--error-color);
-        font-weight: bold;
+
+      /* Styles for the explanation box */
+      .explanation {
+        background-color: #e6f3ff; /* Light blue background */
+        border: 1px solid #b3d9ff; /* Border color */
+        border-radius: 4px; /* Rounded corners */
+        padding: 15px; /* Inner spacing */
+        margin-bottom: 20px; /* Spacing below explanation */
+        /* Removed italic style for accessibility compliance */
       }
+
+      /* Styles for tooltips */
       .tooltip {
-        position: relative;
-        display: inline-block;
-        border-bottom: 1px dotted black;
-        cursor: help;
+        position: relative; /* Positioning context for tooltip text */
+        display: inline-block; /* Allows tooltip to be inline with text */
+        cursor: help; /* Indicates additional information is available */
       }
+
+      /* Styles for the tooltip text */
       .tooltip .tooltiptext {
-        visibility: hidden;
-        width: 200px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -100px;
-        opacity: 0;
-        transition: opacity 0.3s;
+        visibility: hidden; /* Hidden by default */
+        width: 300px; /* Fixed width */
+        background-color: #555; /* Dark background */
+        color: #fff; /* White text */
+        text-align: center; /* Centered text */
+        border-radius: 6px; /* Rounded corners */
+        padding: 10px; /* Inner spacing */
+        position: absolute; /* Absolute positioning */
+        z-index: 1; /* Ensures tooltip appears above other elements */
+        bottom: 125%; /* Positions tooltip above the icon */
+        left: 50%; /* Centers tooltip horizontally */
+        margin-left: -150px; /* Centers tooltip based on width */
+        opacity: 0; /* Transparent by default */
+        transition: opacity 0.3s; /* Smooth fade-in effect */
       }
+
+      /* Show tooltip text on hover */
       .tooltip:hover .tooltiptext {
-        visibility: visible;
-        opacity: 1;
+        visibility: visible; /* Makes tooltip visible */
+        opacity: 1; /* Fully opaque */
       }
-      .progress-bar {
-        width: 100%;
-        background-color: #e0e0e0;
-        padding: 3px;
-        border-radius: 3px;
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-      }
-      .progress {
-        width: 0;
-        height: 20px;
-        background-color: var(--button-color);
-        border-radius: 3px;
-        transition: width 0.5s ease-in-out;
+
+      /* Responsive design for smaller screens */
+      @media screen and (max-width: 768px) {
+        .input-group {
+          flex-direction: column; /* Stacks inputs vertically */
+        }
+        button {
+          width: 100%; /* Button takes full width */
+        }
       }
     </style>
   </head>
   <body>
     <header>
+      <!-- 
+        Main heading of the page.
+        The id "main-heading" can be used for accessibility and scripting purposes.
+      -->
       <h1 id="main-heading">Head Start Housing Adjustment Calculator</h1>
     </header>
     <main>
-      <div class="calculator" role="form" aria-labelledby="calc-heading">
-        <h2 id="calc-heading">Enter Your Information</h2>
-        <div class="progress-bar">
-          <div class="progress" id="progress"></div>
-        </div>
-        <div id="step1" class="step">
-          <h3>Step 1: Calculation Frequency</h3>
-          <label for="frequency">How often do you want to calculate?</label>
-          <select id="frequency" onchange="updateProgress()">
-            <option value="monthly">Monthly</option>
-            <option value="annual">Annual</option>
-          </select>
-        </div>
-
-        <div id="step2" class="step">
-          <h3>Step 2: Income</h3>
-          <label for="income">
-            Total Household Income
-            <span class="tooltip"
-              >?
-              <span class="tooltiptext"
-                >The total amount of money earned by all members of your
-                household before taxes</span
-              >
-            </span>
-          </label>
-          <input
-            type="number"
-            id="income"
-            placeholder="Enter household income"
-            required
-            aria-required="true"
-            onchange="updateProgress()"
-          />
-        </div>
-
-        <div id="step3" class="step">
-          <h3>Step 3: Housing Costs</h3>
-          <label for="rent">
-            Rent/Mortgage (including taxes and insurance)
-            <span class="tooltip"
-              >?
-              <span class="tooltiptext"
-                >The amount you pay for your home, including property taxes and
-                insurance if applicable</span
-              >
-            </span>
-          </label>
-          <input
-            type="number"
-            id="rent"
-            placeholder="Enter rent/mortgage cost"
-            required
-            aria-required="true"
-            onchange="updateProgress()"
-          />
-
-          <label for="electricity">Electricity Cost</label>
-          <input
-            type="number"
-            id="electricity"
-            placeholder="Enter electricity cost"
-            required
-            aria-required="true"
-            onchange="updateProgress()"
-          />
-
-          <label for="gas">Gas Cost</label>
-          <input
-            type="number"
-            id="gas"
-            placeholder="Enter gas cost"
-            required
-            aria-required="true"
-            onchange="updateProgress()"
-          />
-
-          <label for="water">Water Cost</label>
-          <input
-            type="number"
-            id="water"
-            placeholder="Enter water cost"
-            required
-            aria-required="true"
-            onchange="updateProgress()"
-          />
-
-          <label for="sewer">Sewer Cost</label>
-          <input
-            type="number"
-            id="sewer"
-            placeholder="Enter sewer cost"
-            required
-            aria-required="true"
-            onchange="updateProgress()"
-          />
-
-          <label for="trash">Trash Cost</label>
-          <input
-            type="number"
-            id="trash"
-            placeholder="Enter trash cost"
-            required
-            aria-required="true"
-            onchange="updateProgress()"
-          />
-        </div>
-
-        <button onclick="calculateAdjustment()" id="calculate-button">
-          Calculate Adjustment
-        </button>
+      <!-- 
+        Explanation box providing context and instructions for the calculator.
+        Helps users understand the purpose and how to use the tool.
+      -->
+      <div class="explanation">
+        Use this tool to adjust family gross income for excessive housing costs
+        when making income eligibility determinations. Housing costs are
+        considered excessive when they exceed 30% of the total gross household
+        income. To use this tool, complete the fields below. The adjusted gross
+        household income will be displayed at the end based on the values
+        provided.
       </div>
 
+      <!-- 
+        Form for the housing calculator.
+        The form uses semantic HTML elements and ARIA attributes for accessibility.
+      -->
+      <form
+        id="housing-calculator"
+        class="calculator"
+        aria-labelledby="calc-heading"
+      >
+        <h2 id="calc-heading">Enter Your Information</h2>
+
+        <!-- Step 1: Income Section -->
+        <section id="step1" class="step">
+          <h3>
+            Step 1: Income
+            <!-- Tooltip providing additional information about income calculation -->
+            <span class="tooltip"
+              >ℹ️
+              <span class="tooltiptext"
+                >Calculate and enter total household gross income for the family
+                and input it into the following field. Note the definition for
+                "income" has been revised in Section 1305.2.</span
+              >
+            </span>
+          </h3>
+          <fieldset>
+            <legend>Household Income</legend>
+            <!-- Label for the income input field -->
+            <label for="income">Total Household Income</label>
+            <div class="input-group">
+              <!-- 
+                Input for total household income.
+                Attributes ensure proper input types, accessibility, and validation.
+              -->
+              <input
+                type="number"
+                id="income"
+                name="income"
+                placeholder="Enter household income"
+                required
+                aria-required="true"
+                min="0"
+                step="0.01"
+              />
+            </div>
+            <!-- Container for displaying error messages related to income input -->
+            <div
+              id="income-error"
+              class="error-message"
+              aria-live="polite"
+            ></div>
+          </fieldset>
+        </section>
+
+        <!-- Step 2: Housing Costs Section -->
+        <section id="step2" class="step">
+          <h3>
+            Step 2: Housing Costs
+            <!-- Tooltip providing additional information about entering housing costs -->
+            <span class="tooltip"
+              >ℹ️
+              <span class="tooltiptext"
+                >Enter the payment amount and number of payments for housing
+                costs listed using available bills, bank statements, and other
+                relevant documentation provided by the family.</span
+              >
+            </span>
+          </h3>
+          <fieldset>
+            <legend>Monthly Housing Expenses</legend>
+
+            <!-- Rent input fields -->
+            <label for="rent">Rent</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="rent"
+                name="rent"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Rent payment amount"
+              />
+              <input
+                type="number"
+                id="rentPayments"
+                name="rentPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of rent payments per year"
+              />
+            </div>
+
+            <!-- Renters Insurance input fields -->
+            <label for="rentersInsurance">Renters Insurance</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="rentersInsurance"
+                name="rentersInsurance"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Renters insurance payment amount"
+              />
+              <input
+                type="number"
+                id="rentersInsurancePayments"
+                name="rentersInsurancePayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of renters insurance payments per year"
+              />
+            </div>
+
+            <!-- Mortgage Payment input fields -->
+            <label for="mortgage">Mortgage Payment</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="mortgage"
+                name="mortgage"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Mortgage payment amount"
+              />
+              <input
+                type="number"
+                id="mortgagePayments"
+                name="mortgagePayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of mortgage payments per year"
+              />
+            </div>
+
+            <!-- Homeowners Insurance input fields -->
+            <label for="homeownersInsurance">Homeowners Insurance</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="homeownersInsurance"
+                name="homeownersInsurance"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Homeowners insurance payment amount"
+              />
+              <input
+                type="number"
+                id="homeownersInsurancePayments"
+                name="homeownersInsurancePayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of homeowners insurance payments per year"
+              />
+            </div>
+
+            <!-- Mortgage Interest input fields -->
+            <label for="mortgageInterest">Mortgage Interest</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="mortgageInterest"
+                name="mortgageInterest"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Mortgage interest payment amount"
+              />
+              <input
+                type="number"
+                id="mortgageInterestPayments"
+                name="mortgageInterestPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of mortgage interest payments per year"
+              />
+            </div>
+
+            <!-- Property or Renter Taxes input fields -->
+            <label for="propertyTaxes">Property or Renter Taxes</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="propertyTaxes"
+                name="propertyTaxes"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Property or renter taxes payment amount"
+              />
+              <input
+                type="number"
+                id="propertyTaxesPayments"
+                name="propertyTaxesPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of property or renter taxes payments per year"
+              />
+            </div>
+
+            <!-- Electricity input fields -->
+            <label for="electricity">Electricity</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="electricity"
+                name="electricity"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Electricity payment amount"
+              />
+              <input
+                type="number"
+                id="electricityPayments"
+                name="electricityPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of electricity payments per year"
+              />
+            </div>
+
+            <!-- Gas input fields -->
+            <label for="gas">Gas</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="gas"
+                name="gas"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Gas payment amount"
+              />
+              <input
+                type="number"
+                id="gasPayments"
+                name="gasPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of gas payments per year"
+              />
+            </div>
+
+            <!-- Water input fields -->
+            <label for="water">Water</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="water"
+                name="water"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Water payment amount"
+              />
+              <input
+                type="number"
+                id="waterPayments"
+                name="waterPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of water payments per year"
+              />
+            </div>
+
+            <!-- Sewer input fields -->
+            <label for="sewer">Sewer</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="sewer"
+                name="sewer"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Sewer payment amount"
+              />
+              <input
+                type="number"
+                id="sewerPayments"
+                name="sewerPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of sewer payments per year"
+              />
+            </div>
+
+            <!-- Trash input fields -->
+            <label for="trash">Trash</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="trash"
+                name="trash"
+                placeholder="Payment amount"
+                min="0"
+                step="0.01"
+                aria-label="Trash payment amount"
+              />
+              <input
+                type="number"
+                id="trashPayments"
+                name="trashPayments"
+                placeholder="Payments per year"
+                min="0"
+                max="12"
+                step="1"
+                aria-label="Number of trash payments per year"
+              />
+            </div>
+          </fieldset>
+        </section>
+
+        <!-- 
+          Submit button to trigger the calculation.
+          Accessible by keyboard and screen readers.
+        -->
+        <button type="submit" id="calculate-button">
+          Calculate Adjustment
+        </button>
+      </form>
+
+      <!-- 
+        Result display area.
+        Initially hidden and revealed after calculation.
+        Uses ARIA roles for accessibility.
+      -->
       <div
         id="result"
         class="result"
@@ -280,119 +588,124 @@
         aria-live="polite"
       ></div>
 
+      <!-- 
+        Caveat note providing additional information and disclaimers.
+      -->
       <p class="caveat">
         Note: This calculator provides an estimate for housing adjustment.
         Please speak with a Head Start representative for official
-        determinations and provide supporting documents..
+        determinations and provide supporting documents.
       </p>
     </main>
 
     <script>
-      function updateProgress() {
-        const totalSteps = 8; // Frequency, Income, and 6 Housing Cost fields
-        const completedSteps = [
-          document.getElementById("frequency").value !== "",
-          document.getElementById("income").value !== "",
-          document.getElementById("rent").value !== "",
-          document.getElementById("electricity").value !== "",
-          document.getElementById("gas").value !== "",
-          document.getElementById("water").value !== "",
-          document.getElementById("sewer").value !== "",
-          document.getElementById("trash").value !== "",
-        ].filter(Boolean).length;
+      // Main calculation function triggered on form submission
+      function calculateAdjustment(event) {
+        event.preventDefault(); // Prevents the default form submission behavior
 
-        const progress = (completedSteps / totalSteps) * 100;
-        document.getElementById("progress").style.width = `${progress}%`;
-      }
+        try {
+          // Get the total household income from the input field
+          const income = getNumberInput("income");
 
-      function formatCurrency(value) {
-        if (isNaN(value)) {
-          return "Unable to calculate the amount due to missing information.";
-        }
-        return new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "USD",
-        }).format(value);
-      }
+          // Define the housing cost categories as an array of input IDs
+          const housingCategories = [
+            "rent",
+            "rentersInsurance",
+            "mortgage",
+            "homeownersInsurance",
+            "mortgageInterest",
+            "propertyTaxes",
+            "electricity",
+            "gas",
+            "water",
+            "sewer",
+            "trash",
+          ];
 
-      function calculateAdjustment() {
-        const frequency = document.getElementById("frequency").value;
-        const multiplier = frequency === "monthly" ? 12 : 1;
+          // Calculate total housing costs by summing each category's annual cost
+          const totalHousingCosts = housingCategories.reduce(
+            (total, category) => {
+              const amount = getNumberInput(category) || 0; // Payment amount
+              const payments = getNumberInput(category + "Payments") || 0; // Number of payments per year
+              return total + amount * payments; // Adds the annual cost to the total
+            },
+            0 // Initial value for the total
+          );
 
-        const income =
-          (parseFloat(document.getElementById("income").value) || 0) *
-          multiplier;
-        const rent =
-          (parseFloat(document.getElementById("rent").value) || 0) * multiplier;
-        const electricity =
-          (parseFloat(document.getElementById("electricity").value) || 0) *
-          multiplier;
-        const gas =
-          (parseFloat(document.getElementById("gas").value) || 0) * multiplier;
-        const water =
-          (parseFloat(document.getElementById("water").value) || 0) *
-          multiplier;
-        const sewer =
-          (parseFloat(document.getElementById("sewer").value) || 0) *
-          multiplier;
-        const trash =
-          (parseFloat(document.getElementById("trash").value) || 0) *
-          multiplier;
+          // Calculate 30% of the total household income
+          const thirtyPercentIncome = income * 0.3;
 
-        const totalHousingCosts =
-          rent + electricity + gas + water + sewer + trash;
-        const thirtyPercentIncome = income * 0.3;
-        const excessHousingCosts = Math.max(
-          0,
-          totalHousingCosts - thirtyPercentIncome
-        );
-        const adjustedIncome = income - excessHousingCosts;
+          // Calculate excess housing costs if total exceeds 30% of income
+          const excessHousingCosts = Math.max(
+            0,
+            totalHousingCosts - thirtyPercentIncome
+          );
 
-        const exceedsThirtyPercent = totalHousingCosts > thirtyPercentIncome;
-        const exceedsClass = exceedsThirtyPercent ? "yes" : "no";
+          // Calculate the adjusted income by subtracting excess housing costs
+          const adjustedIncome = income - excessHousingCosts;
 
-        let resultHtml = `
-          <h2>Results</h2>
-          <p>Total Annual Housing Costs: ${formatCurrency(
-            totalHousingCosts
-          )}</p>
-          <p>30% of Total Household Income: ${formatCurrency(
-            thirtyPercentIncome
-          )}</p>
-          <p>Do housing costs exceed 30% of total household income?
-              <span class="${exceedsClass}">${
-          exceedsThirtyPercent ? "Yes" : "No"
-        }</span>
-          </p>
-          <p>Total housing deduction allowable by Office of Head Start: ${formatCurrency(
-            excessHousingCosts
-          )}</p>
-          <p>New Household Income to determine eligibility: ${formatCurrency(
+          // Display the results to the user
+          displayResults(
+            totalHousingCosts,
+            thirtyPercentIncome,
+            excessHousingCosts,
             adjustedIncome
+          );
+        } catch (error) {
+          // Log the error for debugging purposes
+          console.error("Calculation error:", error);
+          // Display a user-friendly error message
+          displayError(
+            "An error occurred during calculation. Please check your inputs and try again."
+          );
+        }
+      }
+
+      // Helper function to retrieve and parse numeric input values
+      function getNumberInput(id) {
+        const value = parseFloat(document.getElementById(id).value);
+        return isNaN(value) ? 0 : value; // Returns 0 if input is not a number
+      }
+
+      // Function to display calculation results in the result area
+      function displayResults(
+        totalHousingCosts,
+        thirtyPercentIncome,
+        excessHousingCosts,
+        adjustedIncome
+      ) {
+        // Template literal to format the results HTML
+        const resultHtml = `
+          <h2>Results</h2>
+          <p>Total Annual Housing Costs: $${totalHousingCosts.toFixed(2)}</p>
+          <p>30% of Total Household Income: $${thirtyPercentIncome.toFixed(
+            2
           )}</p>
-          <h3>Calculation Breakdown:</h3>
-          <p>Total Household Income: ${formatCurrency(income)}</p>
-          <p>Housing Adjustment: ${formatCurrency(excessHousingCosts)}</p>
-          <p>Adjusted Income: ${formatCurrency(income)} - ${formatCurrency(
-          excessHousingCosts
-        )} = ${formatCurrency(adjustedIncome)}</p>
+          <p>Do housing costs exceed 30% of total household income? <strong>${
+            totalHousingCosts > thirtyPercentIncome ? "Yes" : "No"
+          }</strong></p>
+          <p>Total Housing Deduction: $${excessHousingCosts.toFixed(2)}</p>
+          <p>Adjusted Household Income: $${adjustedIncome.toFixed(2)}</p>
         `;
 
-        document.getElementById("result").innerHTML = resultHtml;
-        document.getElementById("result").style.display = "block";
-
-        // Reset input fields to 0
-        //document.getElementById("income").value = "0";
-        //document.getElementById("rent").value = "0";
-        //document.getElementById("electricity").value = "0";
-        //document.getElementById("gas").value = "0";
-        //document.getElementById("water").value = "0";
-        //document.getElementById("sewer").value = "0";
-        //document.getElementById("trash").value = "0";
+        // Select the result element and update its content
+        const resultElement = document.getElementById("result");
+        resultElement.innerHTML = resultHtml; // Inserts the results HTML
+        resultElement.style.display = "block"; // Makes the result area visible
       }
 
-      // Initialize progress bar
-      updateProgress();
+      // Function to display error messages to the user
+      function displayError(message) {
+        const errorElement = document.createElement("div"); // Creates a new div element
+        errorElement.className = "error-message"; // Assigns the error message class
+        errorElement.textContent = message; // Sets the error message text
+        document.getElementById("result").appendChild(errorElement); // Appends the error to the result area
+      }
+
+      // Event listener for form submission to trigger calculation
+      document
+        .getElementById("housing-calculator")
+        .addEventListener("submit", calculateAdjustment);
     </script>
   </body>
 </html>
